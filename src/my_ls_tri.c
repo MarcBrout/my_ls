@@ -5,19 +5,19 @@
 ** Login   <brout_m@epitech.net>
 ** 
 ** Started on  Tue Nov 24 14:21:46 2015 marc brout
-** Last update Tue Nov 24 23:04:44 2015 marc brout
+** Last update Wed Nov 25 11:12:52 2015 marc brout
 */
 
 #include "../include/my_ls.h"
 
-void		my_ls_tri(t_par *tpar)
+void		my_ls_tri(t_dir *tdir)
 {
   t_dir		*tmp;
   char		*stock;
   int		tri;
 
   tri = 0;
-  tmp = tpar->tdir->next;
+  tmp = tdir->next;
   while (tri == 0 || my_strcmp(tmp->next->path, "root") != 0)
     {
       tri = 1;
@@ -27,7 +27,7 @@ void		my_ls_tri(t_par *tpar)
 	  stock = tmp->path;
 	  tmp->path = tmp->next->path;
 	  tmp->next->path = stock;
-	  tmp = tpar->tdir->next;
+	  tmp = tdir->next;
 	}
       tmp = tmp->next;
     }

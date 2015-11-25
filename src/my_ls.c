@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 ** 
 ** Started on  Mon Nov 23 11:38:08 2015 marc brout
-** Last update Tue Nov 24 23:36:28 2015 marc brout
+** Last update Wed Nov 25 11:16:23 2015 marc brout
 */ 
 
 #include <stdlib.h>
@@ -106,8 +106,14 @@ int		main(int ac, char **av)
       tpar.nbpath = 1;
     }
   if (tpar.nbpath > 1)
-    my_ls_tri(&tpar);
+    my_ls_tri(tpar.tdir);
+  my_printf("\n=======================================================\n");
+  my_printf("=================== ARGUMENTS =========================\n");
+  my_printf("=======================================================\n\n");
   my_show_args(&tpar);
-  /* my_ls(&tpar); */
+  my_printf("\n=======================================================\n");
+  my_printf("================== START MY LS ========================\n");
+  my_printf("=======================================================\n\n");
+  my_ls(&tpar);
   return (0);
 }
