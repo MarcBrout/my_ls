@@ -5,14 +5,15 @@
 ## Login   <bougon_p@epitech.net>
 ## 
 ## Started on  Thu Oct 29 14:45:48 2015 Pierre Bougon
-## Last update Tue Nov 24 19:14:36 2015 marc brout
+## Last update Thu Nov 26 18:35:57 2015 marc brout
 ##
 
 SRCP	= ./src/
 
 SRC     = $(SRCP)my_ls.c \
 	$(SRCP)my_ls_tri.c \
-	$(SRCP)my_ls_show.c
+	$(SRCP)my_ls_show.c \
+	$(SRCP)functions.c
 
 OBJS    = $(SRC:.c=.o)
 
@@ -20,16 +21,14 @@ NAME    = my_ls
 
 CC      = gcc
 
-CFLAGS  = -W -Wall -Werror -ansi -pedantic -g
+CFLAGS  = -W -Wall -ansi -pedantic -g
 
 LDFLAGS = -lmy -L./lib/
-
-HDFLAGS = -I ./include/
 
 RM      = rm -f
 
 $(NAME): $(OBJS)
-	@$(CC) -o $(NAME) $(OBJS) $(LDFLAGS) $(HDFLAGS)
+	@$(CC) -o $(NAME) $(OBJS) $(LDFLAGS)
 
 all: $(NAME)
 
