@@ -5,31 +5,10 @@
 ** Login   <brout_m@epitech.net>
 ** 
 ** Started on  Mon Nov 23 21:13:58 2015 marc brout
-** Last update Thu Nov 26 18:15:58 2015 marc brout
+** Last update Fri Nov 27 23:30:16 2015 marc brout
 */
 
 #include "../include/my_ls.h"
-
-void		my_show_args(t_par *tpar)
-{
-  t_dir		*tmp;
-  int		i;
-
-  tmp = tpar->tdir->next;
-  while (tmp->root != '1')
-    {
-      my_printf("%s ", tmp->path);
-      tmp = tmp->next;
-    }
-  my_printf("\nnbpath =  %d\n", tpar->nbpath);
-  i = 0;
-  while (i < SIZE_ARG)
-    {
-      if (tpar->targ[i].ispresent == 1)
-	my_printf("%c ", tpar->targ[i].c);
-      i += 1;
-    }
-}
 
 void		read_folder_list(t_dir *tdir, t_par *tpar)
 {
@@ -82,9 +61,13 @@ int		fill_folder_list(t_par *tpar, DIR *fold)
 {
   struct dirent *file;
   t_dir		*fold_cont;
-  
-  if (((file = readdir(fold)) == NULL) ||
-      ((fold_cont = malloc(sizeof(t_dir))) == NULL))
+
+  if ((file = readdir(fold)) == NULL)
+	{
+	  perror("\nmy_ls");
+	  return (1);
+	}
+  if ((fold_cont = malloc(sizeof(t_dir))) == NULL)
     return (1);
   conf_file(fold_cont);
   while (file != NULL)
@@ -96,26 +79,14 @@ int		fill_folder_list(t_par *tpar, DIR *fold)
   my_ls_tri(fold_cont);
   read_folder_list(fold_cont, tpar);
   closedir(fold);
+  free_t_dir(fold_cont);
   return (0);
 }
 
-int		my_ls(t_par *tpar)
+void		print_that_debf(char c, char b)
 {
-  DIR		*fold;
-  t_dir		*tmp;
-
-  tmp = tpar->tdir->next;
-  while (tmp->root != '1')
-    {
-      if (tmp->prev->root != '1' && tmp->next->root != '1')
-	my_printf("\n");
-      if (tpar->nbpath > 1)
-	my_printf("%s:\n", tmp->path);
-      fold = opendir((const char *)tmp->path);
-      launch_read(tpar, fold, tmp->path);
-      if (tmp->next->root != '1')
-	my_printf("\n");
-      tmp = tmp->next;
-    }
-  return (0);
+  if ((c == '0' && b != '1'))
+    my_putchar('\n');
+  else if ((c != '1' && b == '1'))
+    my_putchar('\n');
 }

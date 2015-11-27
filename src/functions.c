@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 ** 
 ** Started on  Thu Nov 26 14:18:49 2015 marc brout
-** Last update Thu Nov 26 22:44:57 2015 marc brout
+** Last update Fri Nov 27 23:41:40 2015 marc brout
 */
 
 #include "../include/my_ls.h"
@@ -13,8 +13,8 @@
 char	*my_strcat_ls(char *str, char *str2)
 {
   char	*tmp;
-  int		i;
-  int		j;
+  int	i;
+  int	j;
 
   if ((tmp = malloc(my_strlen(str) + my_strlen(str2) + 2)) == NULL)
     return (NULL);
@@ -35,18 +35,23 @@ char	*my_strcat_ls(char *str, char *str2)
 
 void		show_stats(t_dir *fold_cont, char *root_path)
 {
+  int		max;
   t_dir		*tmp;
   char		*full_p;
   struct stat	stats;
 
   tmp = fold_cont->next;
-  print_blocks(fold_cont, root_path);
+  max = print_blocks(fold_cont, root_path);
   while (tmp->root != '1')
     {
-      if ((full_p = my_strcat_ls(root_path, tmp->path)) == NULL ||
-	   stat((const char *)full_p, &stats) == -1)
-	return;
-      print_stats(&stats, full_p, tmp->path);
+      if ((full_p = my_strcat_ls(root_path, tmp->path)) == NULL)
+	return ;
+      if (lstat((const char *)full_p, &stats) == -1)
+	{
+	  perror("\nmy_ls");
+	  return ;
+	}
+      print_stats(&stats, tmp->path, max);
       tmp = tmp->next;
       if (full_p != NULL)
 	free(full_p);
@@ -55,15 +60,26 @@ void		show_stats(t_dir *fold_cont, char *root_path)
 
 void		show_stats_r(t_dir *fold_cont, char *root_path)
 {
+  int		max;
   t_dir		*tmp;
-  char		*full_path;
+  char		*full_p;
+  struct stat	stats;
 
   tmp = fold_cont->prev;
+  max = print_blocks(fold_cont, root_path);
   while (tmp->root != '1')
     {
-      full_path = my_strcat_ls(root_path, tmp->path);
-      my_printf("%s\n", full_path);
+      if ((full_p = my_strcat_ls(root_path, tmp->path)) == NULL)
+	return ;
+      if (lstat((const char *)full_p, &stats) == -1)
+	{
+	  perror("\nmy_ls");
+	  return ;
+	}
+      print_stats(&stats, tmp->path, max);
       tmp = tmp->prev;
+      if (full_p != NULL)
+	free(full_p);
     }
 }
 
@@ -72,8 +88,12 @@ int		fill_folder_stats(DIR *fold, t_par *tpar, char *path)
   struct dirent *file;
   t_dir		*fold_cont;
 
-  if (((file = readdir(fold)) == NULL) ||
-      ((fold_cont = malloc(sizeof(t_dir))) == NULL))
+  if ((file = readdir(fold)) == NULL)
+    {
+      perror("\nmy_ls");
+      return (1);
+    }
+  if ((fold_cont = malloc(sizeof(t_dir))) == NULL)
     return (1);
   conf_file(fold_cont);
   while (file != NULL)
@@ -88,6 +108,7 @@ int		fill_folder_stats(DIR *fold, t_par *tpar, char *path)
   else
     show_stats_r(fold_cont, path);
   closedir(fold);
+  free_t_dir(fold_cont);
   return (0);
 }
 
@@ -95,6 +116,6 @@ void		launch_read(t_par *tpar, DIR *fold, char *path)
 {
   if (tpar->targ[0].ispresent == 0)
     fill_folder_list(tpar, fold);
-  else 
+  else
     fill_folder_stats(fold, tpar, path);
 }

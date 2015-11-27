@@ -5,8 +5,8 @@
 ** Login   <brout_m@epitech.net>
 ** 
 ** Started on  Mon Nov 23 11:38:08 2015 marc brout
-** Last update Thu Nov 26 19:01:06 2015 marc brout
-*/ 
+** Last update Fri Nov 27 23:46:35 2015 marc brout
+*/
 
 #include <stdlib.h>
 #include "../include/my_ls.h"
@@ -110,13 +110,10 @@ int		main(int ac, char **av)
     }
   if (tpar.nbpath > 1)
     my_ls_tri(tpar.tdir);
-  /* my_printf("\n=======================================================\n"); */
-  /* my_printf("=================== ARGUMENTS =========================\n"); */
-  /* my_printf("=======================================================\n\n"); */
-  /* my_show_args(&tpar); */
-  /* my_printf("\n=======================================================\n"); */
-  /* my_printf("================== START MY LS ========================\n"); */
-  /* my_printf("=======================================================\n\n"); */
-  my_ls(&tpar);
+  if (tpar.targ[3].ispresent == 0)
+    my_ls(&tpar);
+  else
+    my_ls_r(&tpar);
+  free_t_dir(tpar.tdir);
   return (0);
 }
