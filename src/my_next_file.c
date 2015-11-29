@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 ** 
 ** Started on  Sun Nov 29 03:54:42 2015 marc brout
-** Last update Sun Nov 29 18:23:27 2015 marc brout
+** Last update Sun Nov 29 18:41:45 2015 marc brout
 */
 
 #include "../include/my_ls.h"
@@ -32,6 +32,7 @@ void		read_d(t_par *tpar)
   t_dir		*tmp;
 
   tmp = tpar->tdir;
+  my_ls_tri_time(tpar, tmp);
   if (tpar->targ[0].ispresent == 1)
     show_stats(tpar, tmp);
   else
@@ -44,6 +45,7 @@ void		read_d_r(t_par *tpar)
   t_dir		*tmp;
 
   tmp = tpar->tdir;
+  my_ls_tri_time(tpar, tmp);
   if (tpar->targ[0].ispresent == 1)
     show_stats_r(tpar, tmp);
   else
