@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 ** 
 ** Started on  Tue Nov 24 14:21:46 2015 marc brout
-** Last update Sat Nov 28 22:37:45 2015 marc brout
+** Last update Sun Nov 29 04:11:56 2015 marc brout
 */
 
 #include "../include/my_ls.h"
@@ -18,7 +18,7 @@ void		print_spaces(t_dir *file, int max)
   while (power < max)
     power *= 10;
   power /= 10;
-  while (power > file->stats.st_size && power > 10)
+  while (power > file->stats.st_size && power > 1)
     {
       my_putchar(' ');
       power /= 10;
