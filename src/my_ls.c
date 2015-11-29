@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 ** 
 ** Started on  Mon Nov 23 11:38:08 2015 marc brout
-** Last update Sun Nov 29 04:01:00 2015 marc brout
+** Last update Sun Nov 29 17:37:19 2015 marc brout
 */
 
 #include "../include/my_ls.h"
@@ -100,6 +100,6 @@ int		main(int ac, char **av)
   if (fill_args(ac, av, &tpar) > 0)
     return (1);
   launch_ls(&tpar);
-  free_t_dir(tpar.tdir);
+  free_t_dir_main(tpar.tdir);
   return (0);
 }

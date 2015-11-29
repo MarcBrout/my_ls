@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 ** 
 ** Started on  Fri Nov 27 09:33:55 2015 marc brout
-** Last update Sun Nov 29 01:33:16 2015 marc brout
+** Last update Sun Nov 29 17:36:43 2015 marc brout
 */
 
 #include "../include/my_ls.h"
@@ -26,6 +26,7 @@ void		free_t_dir(t_dir *tdir)
   while (tmp != tdir && tmp)
     {
       tmp2 = tmp->next;
+      free_str(tmp->rpath);
       if (tmp != NULL)
 	free(tmp);
       tmp = tmp2;

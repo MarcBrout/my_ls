@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 ** 
 ** Started on  Mon Nov 23 11:39:19 2015 marc brout
-** Last update Sun Nov 29 03:33:01 2015 marc brout
+** Last update Sun Nov 29 17:35:44 2015 marc brout
 */
 
 #ifndef MY_LS_H_
@@ -82,6 +82,7 @@ void conf_dir_to_list(t_par *, char *, t_dir *);
 void launch_read_file(t_dir *, t_par *, char *);
 void print_that_debf(char, char);
 void free_t_dir(t_dir *);
+void free_t_dir_main(t_dir *);
 void print_file_color(char *, t_dir *);
 void print_folder_list_col(char *, t_dir *);
 void print_col_symb(char *, char);

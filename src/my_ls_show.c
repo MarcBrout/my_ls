@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 ** 
 ** Started on  Mon Nov 23 21:13:58 2015 marc brout
-** Last update Sun Nov 29 03:51:57 2015 marc brout
+** Last update Sun Nov 29 17:30:58 2015 marc brout
 */
 
 #include "../include/my_ls.h"
@@ -42,7 +42,6 @@ int		add_file_to_end_list(t_dir *tdir, char *str, char *rpath)
       elem->prev = tdir->prev;
       tdir->prev->next = elem;
       tdir->prev = elem;
-      free_str(str2);
     }
   return (0);
 }
