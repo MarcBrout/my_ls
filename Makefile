@@ -5,7 +5,7 @@
 ## Login   <bougon_p@epitech.net>
 ## 
 ## Started on  Thu Oct 29 14:45:48 2015 Pierre Bougon
-## Last update Fri Nov 27 23:29:01 2015 marc brout
+## Last update Sun Nov 29 04:06:11 2015 marc brout
 ##
 
 SRCP	= ./src/
@@ -14,7 +14,11 @@ SRC     = $(SRCP)my_ls.c \
 	$(SRCP)my_ls_tri.c \
 	$(SRCP)my_ls_show.c \
 	$(SRCP)my_ls_options.c \
+	$(SRCP)my_over_nine.c \
+	$(SRCP)my_colors.c \
+	$(SRCP)my_next_file.c \
 	$(SRCP)macroes.c \
+	$(SRCP)lasts.c \
 	$(SRCP)functions.c
 
 OBJS    = $(SRC:.c=.o)

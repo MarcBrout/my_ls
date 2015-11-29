@@ -5,117 +5,103 @@
 ** Login   <brout_m@epitech.net>
 ** 
 ** Started on  Thu Nov 26 14:18:49 2015 marc brout
-** Last update Fri Nov 27 23:41:40 2015 marc brout
+** Last update Sun Nov 29 03:53:26 2015 marc brout
 */
 
 #include "../include/my_ls.h"
 
-char	*my_strcat_ls(char *str, char *str2)
-{
-  char	*tmp;
-  int	i;
-  int	j;
-
-  if ((tmp = malloc(my_strlen(str) + my_strlen(str2) + 2)) == NULL)
-    return (NULL);
-  i = 0;
-  while (str[i])
-    {
-      tmp[i] = str[i];
-      i += 1;
-    }
-  if (tmp[i - 1] != '/')
-    tmp[i++] = '/';
-  j = 0;
-  while (str2[j])
-    tmp[i++] = str2[j++];
-  tmp[i] = 0;
-  return (tmp);
-}
-
-void		show_stats(t_dir *fold_cont, char *root_path)
+void		show_stats(t_par *tpar, t_dir *fold_cont)
 {
   int		max;
   t_dir		*tmp;
-  char		*full_p;
-  struct stat	stats;
 
-  tmp = fold_cont->next;
-  max = print_blocks(fold_cont, root_path);
+  tmp = (tpar->targ[2].ispresent) ? fold_cont : fold_cont->next;
+  max = print_blocks(tpar, fold_cont);
   while (tmp->root != '1')
     {
-      if ((full_p = my_strcat_ls(root_path, tmp->path)) == NULL)
-	return ;
-      if (lstat((const char *)full_p, &stats) == -1)
-	{
-	  perror("\nmy_ls");
-	  return ;
-	}
-      print_stats(&stats, tmp->path, max);
+      print_stats(tmp, max);
       tmp = tmp->next;
-      if (full_p != NULL)
-	free(full_p);
     }
 }
 
-void		show_stats_r(t_dir *fold_cont, char *root_path)
+void		show_stats_r(t_par *tpar, t_dir *fold_cont)
 {
   int		max;
   t_dir		*tmp;
-  char		*full_p;
-  struct stat	stats;
 
-  tmp = fold_cont->prev;
-  max = print_blocks(fold_cont, root_path);
+  tmp = (tpar->targ[2].ispresent) ? fold_cont : fold_cont->prev;
+  max = print_blocks(tpar, fold_cont);
   while (tmp->root != '1')
     {
-      if ((full_p = my_strcat_ls(root_path, tmp->path)) == NULL)
-	return ;
-      if (lstat((const char *)full_p, &stats) == -1)
-	{
-	  perror("\nmy_ls");
-	  return ;
-	}
-      print_stats(&stats, tmp->path, max);
+      print_stats(tmp, max);
       tmp = tmp->prev;
-      if (full_p != NULL)
-	free(full_p);
     }
 }
 
-int		fill_folder_stats(DIR *fold, t_par *tpar, char *path)
+void		fill_dir_files(t_par *tpar, t_rec *trec)
 {
-  struct dirent *file;
-  t_dir		*fold_cont;
-
-  if ((file = readdir(fold)) == NULL)
+  if ((trec->file = readdir(trec->fold)) == NULL)
     {
       perror("\nmy_ls");
-      return (1);
+      return ;
     }
-  if ((fold_cont = malloc(sizeof(t_dir))) == NULL)
-    return (1);
-  conf_file(fold_cont);
-  while (file != NULL)
+  if ((trec->fold_cont = malloc(sizeof(t_dir))) == NULL)
+    return ;
+  conf_file(trec->fold_cont);
+  while (trec->file != NULL)
     {
-      if (file->d_name[0] != '.')
-	add_file_to_end_list(fold_cont, file->d_name);
-      file = readdir(fold);
+      if (trec->file->d_name[0] != '.')
+	add_file_to_end_list(trec->fold_cont, trec->file->d_name,
+			     trec->path);
+      trec->file = readdir(trec->fold);
     }
-  my_ls_tri(fold_cont);
+  my_ls_tri(trec->fold_cont);
+  my_ls_tri_time(tpar, trec->fold_cont);
   if (tpar->targ[3].ispresent == 0)
-    show_stats(fold_cont, path);
+    show_stats(tpar, trec->fold_cont);
   else
-    show_stats_r(fold_cont, path);
-  closedir(fold);
-  free_t_dir(fold_cont);
-  return (0);
+    show_stats_r(tpar, trec->fold_cont);
+}
+
+void		fill_folder_stats(DIR *fold, t_par *tpar, char *path)
+{
+  t_rec		trec;
+  char		*nextpath;
+
+  trec.path = path;
+  trec.fold = fold;
+  fill_dir_files(tpar, &trec);
+  if (tpar->targ[1].ispresent == 1)
+    while ((trec.fold_cont = trec.fold_cont->next)
+	   && trec.fold_cont->root != '1')
+      {
+	if (trec.fold_cont->d == 'd')
+	  {
+	    my_putchar('\n');
+	    nextpath = my_strcat_ls(path, trec.fold_cont->path);
+	    my_printf("%s:\n", nextpath);
+	    fill_folder_stats(opendir(nextpath), tpar, nextpath);
+	    free_str(nextpath);
+	  }
+      }
+  closedir(trec.fold);
+  free_t_dir(trec.fold_cont);
 }
 
 void		launch_read(t_par *tpar, DIR *fold, char *path)
 {
   if (tpar->targ[0].ispresent == 0)
-    fill_folder_list(tpar, fold);
+    fill_folder_list(tpar, fold, path);
   else
-    fill_folder_stats(fold, tpar, path);
+    if (tpar->targ[2].ispresent == 0)
+      {
+	if (tpar->targ[1].ispresent == 1)
+	  my_printf("%s:\n", path);
+	fill_folder_stats(fold, tpar, path);
+      }
+    else
+      if (tpar->targ[3].ispresent == 0)
+	show_stats(tpar, tpar->tdir);
+      else
+	show_stats_r(tpar, tpar->tdir);
 }

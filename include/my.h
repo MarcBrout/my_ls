@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 ** 
 ** Started on  Thu Oct  8 11:23:34 2015 marc brout
-** Last update Mon Nov 23 11:29:41 2015 marc brout
+** Last update Sat Nov 28 22:33:20 2015 marc brout
 */
 
 #ifndef MY_H_
@@ -18,7 +18,10 @@ typedef int (**t_ptrftab)(va_list, char, const char *, int);
 
 t_ptrftab init_myprintf_ftab();
 void my_putchar(char);
+void my_putchar_err(char);
+void my_putstr_err(char *);
 char *my_strdup(char*);
+char *my_strcat_err(char *, char *);
 char *my_revstr(char *);
 int my_printf(const char *, ...);
 int get_flag(char);
