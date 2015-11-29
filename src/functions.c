@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 ** 
 ** Started on  Thu Nov 26 14:18:49 2015 marc brout
-** Last update Sun Nov 29 17:21:29 2015 marc brout
+** Last update Sun Nov 29 18:22:07 2015 marc brout
 */
 
 #include "../include/my_ls.h"
@@ -15,7 +15,7 @@ void		show_stats(t_par *tpar, t_dir *fold_cont)
   int		max;
   t_dir		*tmp;
 
-  tmp = (tpar->targ[2].ispresent) ? fold_cont : fold_cont->next;
+  tmp = fold_cont->next;
   max = print_blocks(tpar, fold_cont);
   while (tmp->root != '1')
     {
@@ -29,7 +29,7 @@ void		show_stats_r(t_par *tpar, t_dir *fold_cont)
   int		max;
   t_dir		*tmp;
 
-  tmp = (tpar->targ[2].ispresent) ? fold_cont : fold_cont->prev;
+  tmp = fold_cont->prev;
   max = print_blocks(tpar, fold_cont);
   while (tmp->root != '1')
     {

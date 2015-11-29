@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 ** 
 ** Started on  Sun Nov 29 03:54:42 2015 marc brout
-** Last update Sun Nov 29 03:55:35 2015 marc brout
+** Last update Sun Nov 29 18:23:27 2015 marc brout
 */
 
 #include "../include/my_ls.h"
@@ -20,9 +20,9 @@ int		my_perror(char *str, char *str2)
 void		print_file_color(char *str, t_dir *tdir)
 {
   if (S_ISDIR(tdir->stats.st_mode))
-    my_printf("\x1b[34%s\x1b[0m\n", str);
+    my_printf("%c[1;34m%s%c[0m\n", 27, str, 27);
   else if ((tdir->stats.st_mode & S_IFMT) == S_IFLNK)
-    my_printf("\x1b[36%s\x1b[0m\n", str);
+    my_printf("%c[36m%s%c[0m\n", 27, str, 27);
   else
     my_printf("%s\n", str);
 }
@@ -33,10 +33,7 @@ void		read_d(t_par *tpar)
 
   tmp = tpar->tdir;
   if (tpar->targ[0].ispresent == 1)
-    {
-      while ((tmp = tmp->next) && tmp->root != '1')
-	show_stats(tpar, tmp);
-    }
+    show_stats(tpar, tmp);
   else
     while ((tmp = tmp->next) && tmp->root != '1')
       print_file_color(tmp->path, tmp);
@@ -48,10 +45,7 @@ void		read_d_r(t_par *tpar)
 
   tmp = tpar->tdir;
   if (tpar->targ[0].ispresent == 1)
-    {
-      while ((tmp = tmp->prev) && tmp->root != '1')
-	show_stats(tpar, tmp);
-    }
+    show_stats_r(tpar, tmp);
   else
     while ((tmp = tmp->prev) && tmp->root != '1')
       print_file_color(tmp->path, tmp);
