@@ -1,11 +1,11 @@
 /*
 ** my_strcat_err.c for my_strcat_err in /home/brout_m/dev/lib
-** 
+**
 ** Made by marc brout
 ** Login   <brout_m@epitech.net>
-** 
+**
 ** Started on  Tue Oct  6 13:37:20 2015 marc brout
-** Last update Sat Nov 28 20:23:07 2015 marc brout
+** Last update Thu Feb 25 18:10:50 2016 marc brout
 */
 
 #include <stdlib.h>
